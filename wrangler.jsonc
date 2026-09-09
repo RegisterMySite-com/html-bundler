@@ -1,0 +1,27 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "html-bundler",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true },
+  "upload_source_maps": true,
+  "vars": {
+    "STUDIO_ORIGIN": "https://html-studio.registermysite.com",
+    "BUNDLER_PUBLIC_ORIGIN": "https://html-bundler.registermysite.com",
+    "ALLOWED_ORIGINS": "https://html-studio.registermysite.com,https://html-bundler.registermysite.com,http://localhost:8787"
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/b/*"]
+  },
+  "ai": { "binding": "AI" },
+  "r2_buckets": [{ "binding": "BUNDLES", "bucket_name": "html-bundler" }],
+  "durable_objects": { "bindings": [{ "name": "APP", "class_name": "BundlerApp" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["BundlerApp"] }]
+}
